@@ -7,3 +7,7 @@ C:\Users\Business\source\repos\DungeonCrawler\DungeonCrawler\obj\Debug\netcoreap
 C:\Users\Business\source\repos\DungeonCrawler\DungeonCrawler\obj\Debug\netcoreapp3.1\DungeonCrawler.csproj.CoreCompileInputs.cache
 C:\Users\Business\source\repos\DungeonCrawler\DungeonCrawler\obj\Debug\netcoreapp3.1\DungeonCrawler.dll
 C:\Users\Business\source\repos\DungeonCrawler\DungeonCrawler\obj\Debug\netcoreapp3.1\DungeonCrawler.pdb
+C:\Users\Business\source\repos\DungeonCrawler\DungeonCrawler\bin\Debug\netcoreapp3.1\DungeonCrawler.exe
+C:\Users\Business\source\repos\DungeonCrawler\DungeonCrawler\bin\Debug\netcoreapp3.1\DungeonCrawler.runtimeconfig.json
+C:\Users\Business\source\repos\DungeonCrawler\DungeonCrawler\bin\Debug\netcoreapp3.1\DungeonCrawler.runtimeconfig.dev.json
+C:\Users\Business\source\repos\DungeonCrawler\DungeonCrawler\obj\Debug\netcoreapp3.1\DungeonCrawler.genruntimeconfig.cache
