@@ -9,7 +9,7 @@ namespace DungeonCrawler
         // variables
         private Random random = new Random();
         private int NUM_ROOMS = 5; // the number or rooms the character go through
-        private List<string> locations = new List<string> {"Eeerie Entrance", "Creepy Cavern", 
+        private List<string> locations = new List<string> {"Eerie Entrance", "Creepy Cavern", 
             "Room of Urns", "Bloody Kitchen", "Prison Cells", "Piano Room", "Open Skylight",
             "Nightmare Den"};
         private Queue<string> nextLocations = new Queue<string>();
@@ -86,7 +86,7 @@ namespace DungeonCrawler
                     number = random.Next(5, 11);
                     break;
                 default:
-                    number = 0;
+                    number = -1;
                     break;
             }
             return number;
