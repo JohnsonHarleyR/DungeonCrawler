@@ -37,7 +37,7 @@ namespace DungeonCrawler
             int damage;
 
             // damage will depend on the enemy type
-            switch(type)
+            switch (type)
             {
                 case ("zombie"):
                     damage = random.Next(10, 16);

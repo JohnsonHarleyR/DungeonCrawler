@@ -17,7 +17,8 @@ namespace DungeonCrawler
             Console.WriteLine("Dungeon Crawler");
 
             // Name the adventurers
-            NameAdventurers(adventurers, NUM_ADVENT);
+           CreateAdventurers(adventurers, NUM_ADVENT, enemy.GetTypes(), map.GetLocations());
+
         }
 
         // Pause
@@ -28,13 +29,19 @@ namespace DungeonCrawler
         }
 
 
-        // Name the adventurers
-        public static void NameAdventurers(List<string> list, int numAdventurers)
+        // Create the adventurers, give them enemies and locations they can't fight
+        public static void CreateAdventurers(List<Character> list, int numAdventurers,
+            List<string> enemies, List<string> locations)
         {
+            Random random = new Random();
+
             // loop for the number of adventurers
             for (int i = 0; i < numAdventurers; i++)
             {
-                string temp;
+                string name;
+                string badEnemy;
+                string badLocation;
+                Character character;
 
                 do // keep asking until a name is entered
                 {
@@ -42,31 +49,39 @@ namespace DungeonCrawler
                     Console.Write($"\nName for adventurer #{i + 1}: ");
 
                     // store name of adventurer in temporary variable
-                    temp = Console.ReadLine();
+                    name = Console.ReadLine();
 
-                    temp.Trim();
+                    name.Trim();
 
                     // if there's no entry, tell them invalid entry.
-                    if (temp.Equals(""))
+                    if (name.Equals(""))
                     {
                         Console.Write("Invalid Entry.");
                     }
-                } while (temp.Equals(""));
+                } while (name.Equals(""));
 
                 // capitalize the first letter just in case - to make the  better
-                if (temp.Length > 1)
+                if (name.Length > 1)
                 {
-                    temp = char.ToUpper(temp[0]) + temp.Substring(1);
+                    name = char.ToUpper(name[0]) + name.Substring(1);
                 }
                 else
                 {
-                    temp = temp.ToUpper();
+                    name = name.ToUpper();
                 }
 
-                // add it to the list
-                list.Add(temp);
+                // decide a random enemy type and location where the adventurer can't fight
+                badEnemy = enemies[random.Next(0, enemies.Count)];
+                badLocation = locations[random.Next(0, locations.Count)];
 
-                //Console.WriteLine(temp); // test
+                // create the new character
+                character = new Character(name, badEnemy, badLocation);
+
+                // add it to the list
+                list.Add(character);
+
+                Console.WriteLine($"Name: {character.GetName()}, Bad Enemy:" +
+                    $" {character.GetBadEnemy()}, Bad Location: {character.GetBadLocation()}"); // test
             }
         }
 
