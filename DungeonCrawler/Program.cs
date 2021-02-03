@@ -12,10 +12,18 @@ namespace DungeonCrawler
             int NUM_ADVENT = 6;
 
 
-            Console.WriteLine("Hello World!");
+            Console.WriteLine("Dungeon Crawler");
+
+            // Name the adventurers
             NameAdventurers(adventurers, NUM_ADVENT);
         }
 
+        // Pause
+        public static void Pause()
+        {
+            Console.WriteLine("\n(Hit enter to continue.)");
+            Console.ReadLine();
+        }
 
 
         // Name the adventurers
@@ -56,7 +64,7 @@ namespace DungeonCrawler
                 // add it to the list
                 list.Add(temp);
 
-                Console.WriteLine(temp); // test
+                //Console.WriteLine(temp); // test
             }
         }
 
