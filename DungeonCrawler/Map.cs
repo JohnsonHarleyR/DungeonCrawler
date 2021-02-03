@@ -18,6 +18,7 @@ namespace DungeonCrawler
         public Map()
         {
             string location = locations[random.Next(0, locations.Count)];
+            string lastLocation;
             nextLocations.Enqueue(location);
 
 
@@ -27,15 +28,16 @@ namespace DungeonCrawler
                 // make sure the next location is not the same as the last one
                 do
                 {
+                    lastLocation = location;
                     location = locations[random.Next(0, locations.Count)];
 
-                    if (!location.Equals(nextLocations.Peek()))
+                    if (!location.Equals(lastLocation))
                     {
                         nextLocations.Enqueue(location);
                     }
 
 
-                } while (location.Equals(nextLocations.Peek()));
+                } while (location.Equals(lastLocation));
                 
             }
         }
