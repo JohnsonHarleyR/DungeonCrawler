@@ -15,6 +15,7 @@ namespace DungeonCrawler
             string location;
             List<Character> adventurers = new List<Character>();
             int NUM_ADVENT = 6;
+            Random random = new Random();
 
 
             Console.WriteLine("Dungeon Crawler");
@@ -28,6 +29,10 @@ namespace DungeonCrawler
             // loop until there are no rooms left or no character left
             do
             {
+                // variables
+                Character fighter;
+                string thisEnemy = enemy.GetEnemy();
+
                 // characters enter a new room
                 location = map.GetNextLocation();
                 int numAdvents = CharactersLeft(adventurers);
@@ -52,7 +57,58 @@ namespace DungeonCrawler
                 Pause();
 
 
+                // NOTE may not need to record lastEnemy and last location, may only need
+                // to record if they took damage in tht particular room - to simplify things
+     
+
+                // now use a fighter to attack - until one of them defeats the enemy
+                do {
+                    // select random fighter
+                    fighter = adventurers[random.Next(0, adventurers.Count)];
+
+                    // make sure this fighter didn't already take damage in this location
+                    if (!fighter.GetTookDamage())
+                    {
+                        // Tell the next fighter
+                        Console.WriteLine($"{fighter.GetName()} steps up to fight!");
+                        // Check if it's a bad enemy or bad location
+                        if (fighter.GetBadEnemy().Equals(thisEnemy) ||
+                        fighter.GetBadLocation().Equals(location))
+                        {
+                            // if so, then set the fighter's tookDamage to true
+                            fighter.SetTookDamage(true);
+
+                            // lower the hp of that fighter by the random amount from the enemy
+                            fighter.SetHp(fighter.GetHp() - enemy.GetDamage(thisEnemy));
+                        }
+                        else // otherwise, the character defeats the enemy
+                        {
+
+                        }
+
+
+                        // set their lastRoom to the current location
+                        fighter.SetLastRoom(location);
+                    }
+
+                    
+                } while (fighter.GetLastRoom().Equals(location) ||
+                        fighter.GetBadEnemy().Equals(thisEnemy) ||
+                        fighter.GetBadLocation().Equals(location));
+
+                // loop through the characters to set tookDamage to false
+                foreach (Character adventurer in adventurers)
+                {
+                    adventurer.SetTookDamage(false);
+                }
+
+                // AFTER CHARACTERS ARE DONE FIGHTING ENEMIES IN THE ROOM
+                // now set all the characters lst locations to the last location
+
+
             } while (map.GetLocationQueue().Count > 0 && CharactersLeft(adventurers) > 0);
+
+            
             
 
         }

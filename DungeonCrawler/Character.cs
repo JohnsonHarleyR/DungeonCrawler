@@ -11,6 +11,9 @@ namespace DungeonCrawler
         private string badEnemy; // enemy and location where character can't fight
         private string badLocation;
         private int hp;
+        private string lastRoom = "none";
+        private string lastEnemy = "none";
+        private bool tookDamage = false;
 
 
         // constructor
@@ -41,6 +44,40 @@ namespace DungeonCrawler
         public int GetHp()
         {
             return hp;
+        }
+        // set the hp
+        public void SetHp(int hp)
+        {
+            this.hp = hp;
+        }
+        public string GetLastRoom()
+        {
+            return lastRoom;
+        }
+        // set the last room
+        public void SetLastRoom(string room)
+        {
+            lastRoom = room;
+        }
+        // Get last enemy
+        public string GetLastEnemy()
+        {
+            return lastRoom;
+        }
+        // set the last room
+        public void SetLastEnemy(string enemy)
+        {
+            lastEnemy = enemy;
+        }
+        // Get last enemy
+        public bool GetTookDamage()
+        {
+            return tookDamage;
+        }
+        // set the last room
+        public void SetTookDamage(bool damage)
+        {
+            tookDamage = damage;
         }
 
     }
