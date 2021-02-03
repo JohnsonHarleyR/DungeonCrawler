@@ -17,10 +17,26 @@ namespace DungeonCrawler
         // constructor
         public Map()
         {
+            string location = locations[random.Next(0, locations.Count)];
+            nextLocations.Enqueue(location);
+
+
             // fill the queue with random locations
-            for (int i = 0; i < NUM_ROOMS; i++)
+            for (int i = 1; i < NUM_ROOMS; i++)
             {
-                nextLocations.Enqueue(locations[random.Next(0, locations.Count)]);
+                // make sure the next location is not the same as the last one
+                do
+                {
+                    location = locations[random.Next(0, locations.Count)];
+
+                    if (!location.Equals(nextLocations.Peek()))
+                    {
+                        nextLocations.Enqueue(location);
+                    }
+
+
+                } while (location.Equals(nextLocations.Peek()));
+                
             }
         }
 
@@ -28,6 +44,12 @@ namespace DungeonCrawler
         public string GetNextLocation()
         {
             return nextLocations.Dequeue();
+        }
+
+        // Get the queue of next locations for reference
+        public Queue<string> GetLocationQueue()
+        {
+            return nextLocations;
         }
 
 

@@ -38,6 +38,10 @@ namespace DungeonCrawler
         {
             return badLocation;
         }
+        public int GetHp()
+        {
+            return hp;
+        }
 
     }
 }

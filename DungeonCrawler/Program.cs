@@ -7,9 +7,12 @@ namespace DungeonCrawler
     {
         static void Main(string[] args)
         {
+            //Console.WriteLine("Dungeon Crawler");
+
             // variables
             Enemy enemy = new Enemy();
             Map map = new Map();
+            string location;
             List<Character> adventurers = new List<Character>();
             int NUM_ADVENT = 6;
 
@@ -19,6 +22,57 @@ namespace DungeonCrawler
             // Name the adventurers
            CreateAdventurers(adventurers, NUM_ADVENT, enemy.GetTypes(), map.GetLocations());
 
+            Console.WriteLine("\n\nLet's begin!");
+
+            
+            // loop until there are no rooms left or no character left
+            do
+            {
+                // characters enter a new room
+                location = map.GetNextLocation();
+                int numAdvents = CharactersLeft(adventurers);
+                if (numAdvents > 1)
+                {
+                    Console.WriteLine($"\nThe {CharactersLeft(adventurers)} adventurers enter the {location}.\n");
+
+                }
+                else
+                {
+                    Console.WriteLine($"\nThe single adventurer enters the {location}.\n");
+
+                }
+                Console.WriteLine("**Stats**");
+                // loop through the characters to show their hp
+                foreach (Character adventurer in adventurers)
+                {
+                    Console.WriteLine($"{adventurer.GetName()}: {adventurer.GetHp()} HP");
+                }
+
+                // pause
+                Pause();
+
+
+            } while (map.GetLocationQueue().Count > 0 && CharactersLeft(adventurers) > 0);
+            
+
+        }
+
+        // find out if any characters are still alive
+        public static int CharactersLeft(List<Character> characters)
+        {
+            int numLeft = 0;
+            for (int i = 0; i < characters.Count; i++)
+            {
+                if (characters[i].GetHp() > 0)
+                {
+                    numLeft += 1;
+                }
+                else // if a character is dead, remove it from the list
+                {
+                    characters.Remove(characters[i]);
+                }
+            }
+            return numLeft;
         }
 
         // Pause
