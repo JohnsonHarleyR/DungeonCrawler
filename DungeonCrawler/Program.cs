@@ -8,7 +8,9 @@ namespace DungeonCrawler
         static void Main(string[] args)
         {
             // variables
-            List<string> adventurers = new List<string>();
+            Enemy enemy = new Enemy();
+            Map map = new Map();
+            List<Character> adventurers = new List<Character>();
             int NUM_ADVENT = 6;
 
 

@@ -11,7 +11,7 @@ namespace DungeonCrawler
         private List<string> types = new List<string> { "zombie", "insane clown", "demon",
         "possessed gnome", "giant spider", "vampire", "werewolf"}; // types of enemies
         private Stack<string> deck = new Stack<string>(); // randomly selected types
-        private int DECK_SIZE = 30;
+        private int DECK_SIZE = 50; // should be higher than the max number of enemies
 
         // constructor
         public Enemy()
@@ -65,6 +65,12 @@ namespace DungeonCrawler
                     break;
             }
             return damage;
+        }
+
+        // get the list of enemy types
+        public List<string> GetTypes()
+        {
+            return types;
         }
 
     }
