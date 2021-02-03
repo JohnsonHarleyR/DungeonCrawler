@@ -7,10 +7,28 @@ namespace DungeonCrawler
     class Map
     {
         // variables
-        Random random = new Random();
-        List<string> locations = new List<string> {"Eeerie Entrance", "Creepy Cavern", 
+        private Random random = new Random();
+        private int NUM_ROOMS = 5; // the number or rooms the character go through
+        private List<string> locations = new List<string> {"Eeerie Entrance", "Creepy Cavern", 
             "Room of Urns", "Bloody Kitchen", "Prison Cells", "Piano Room", "Open Skylight",
             "Nightmare Den"};
+        private Queue<string> nextLocations = new Queue<string>();
+
+        // constructor
+        public Map()
+        {
+            // fill the queue with random locations
+            for (int i = 0; i < NUM_ROOMS; i++)
+            {
+                nextLocations.Enqueue(locations[random.Next(0, locations.Count)]);
+            }
+        }
+
+        // Get the next location in the queue
+        public string GetNextLocation()
+        {
+            return nextLocations.Dequeue();
+        }
 
 
         // Get the number of enemies in a room

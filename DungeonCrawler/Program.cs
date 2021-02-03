@@ -80,8 +80,11 @@ namespace DungeonCrawler
                 // add it to the list
                 list.Add(character);
 
+                /*
                 Console.WriteLine($"Name: {character.GetName()}, Bad Enemy:" +
-                    $" {character.GetBadEnemy()}, Bad Location: {character.GetBadLocation()}"); // test
+                    $" {character.GetBadEnemy()} Bad Location: {character.GetBadLocation()}"); // test
+                */
+
             }
         }
 
