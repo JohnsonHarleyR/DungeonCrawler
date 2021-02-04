@@ -5,7 +5,7 @@ namespace DungeonCrawler
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
             //Console.WriteLine("Dungeon Crawler");
 
@@ -21,7 +21,7 @@ namespace DungeonCrawler
             Console.WriteLine("Dungeon Crawler\n");
 
             // Name the adventurers
-           CreateAdventurers(adventurers, NUM_ADVENT, enemy.GetTypes(), map.GetLocations());
+            CreateAdventurers(adventurers, NUM_ADVENT, enemy.GetTypes(), map.GetLocations());
 
             Console.WriteLine("\n\nLet's begin!");
 
@@ -39,16 +39,18 @@ namespace DungeonCrawler
                 int enemiesInRoom = map.GetEnemies(location);
                 if (adventsLeft > 1)
                 {
-                    Console.WriteLine($"\nThe {CharactersLeft(adventurers)} adventurers enter the {location}. " +
-                        $"\nThere are {enemiesInRoom} enemies to fight!");
+                    Console.Write($"\nThe {CharactersLeft(adventurers)} adventurers enter the {location}.");
 
                 }
                 else
                 {
-                    Console.WriteLine($"\nThe single adventurer enters the {location}." +
-                        $"\nThere are {enemiesInRoom} enemies to fight!");
+                    Console.Write($"\nThe single adventurer enters the {location}.");
 
                 }
+                if (enemiesInRoom == 1)
+                    Console.Write($"\nThere is {enemiesInRoom} enemy to fight!\n");
+                else
+                    Console.Write($"\nThere are {enemiesInRoom} enemies to fight!\n");
                 ShowStats(adventurers);
 
                 // pause
@@ -110,7 +112,7 @@ namespace DungeonCrawler
                                 }
                                 else if (fighter.GetBadLocation().Equals(location))
                                 {
-                                    Console.WriteLine($"{fighter.GetName()} struggles to fight in the {location},\nthus they take {damage} HP damage against the enemy!");
+                                    Console.WriteLine($"{fighter.GetName()} struggles to fight in the {location}, thus taking {damage} HP damage!");
 
                                 }
 
@@ -125,6 +127,7 @@ namespace DungeonCrawler
 
                                 // let the player know the enemy is still alive
                                 Pause();
+                                ShowStats(adventurers);
                                 Console.Write($"\nThe {thisEnemy} is still alive!");
                                 enemyAlive = true;
 
@@ -136,9 +139,9 @@ namespace DungeonCrawler
                                 enemiesInRoom -= 1;
                                 // Display enemies left if the room
                                 if (enemiesInRoom == 1)
-                                    Console.WriteLine($"\n\nThere is {enemiesInRoom} enemy left to fight!");
+                                    Console.WriteLine($"\nThere is {enemiesInRoom} enemy in this room left to fight!\n");
                                 else
-                                    Console.WriteLine($"\n\nThere are {enemiesInRoom} enemies left to fight!");
+                                    Console.WriteLine($"\nThere are {enemiesInRoom} enemies in this room left to fight!\n");
                             }
 
                             if (!enemyAlive)
@@ -148,7 +151,11 @@ namespace DungeonCrawler
                                 if (enemiesInRoom > 0)
                                     ShowStats(adventurers);
                                 else
-                                    Console.WriteLine("\nThe room is cleared, so the party moves on to the next.");
+                                {
+                                    Console.WriteLine("\nThe room is cleared, so the party moves on to the next." +
+                                        $"\n(There are {map.GetLocationQueue().Count} more rooms to enter before escape is possible.)\n");
+
+                                }
 
                             }
 
@@ -165,21 +172,28 @@ namespace DungeonCrawler
 
                     } while (//fighter.GetLastRoom().Equals(location) ||
                             fighter.GetBadEnemy().Equals(thisEnemy) ||
-                            fighter.GetBadLocation().Equals(location));
+                            fighter.GetBadLocation().Equals(location) ||
+                            fighter.GetTookDamage());
+
+                    // get a new enemy
+                    thisEnemy = enemy.GetEnemy();
 
                     // loop through the characters to set tookDamage to false - after an enemy is defeated
                     foreach (Character adventurer in adventurers)
                     {
                         adventurer.SetTookDamage(false);
                     }
-
                 }
 
 
-                
+                // if the rooms are out and characters are still alive, tell them they win
+                // if there are still rooms but no characters, they lose
+                if (CharactersLeft(adventurers) == 0)
+                    Console.WriteLine("\n\nAll the adventurers are dead.\nGAME OVER!");
+                else if (map.GetLocationQueue().Count == 0)
+                    Console.WriteLine("\n\nThe remaining party escapes the dungeon alive." +
+                        "\nYOU WIN!");
 
-                // AFTER CHARACTERS ARE DONE FIGHTING ENEMIES IN THE ROOM - (move on to next room)
-                // set all the characters tookDamage to false
 
 
             } while (map.GetLocationQueue().Count > 0 && CharactersLeft(adventurers) > 0);
@@ -196,7 +210,8 @@ namespace DungeonCrawler
             // loop through the characters to show their hp
             foreach (Character adventurer in adventurers)
             {
-                Console.WriteLine($"{adventurer.GetName()}: {adventurer.GetHp()} HP");
+                if (adventurer.GetHp() != 0)
+                    Console.WriteLine($"{adventurer.GetName()}: {adventurer.GetHp()} HP");
             }
         }
 
@@ -213,7 +228,7 @@ namespace DungeonCrawler
                 }
                 else // if a character is dead, remove it from the list
                 {
-                    characters.Remove(characters[i]);
+                    characters.Remove(characters[i]); // does not work for some reason
                 }
             }
             return numLeft;

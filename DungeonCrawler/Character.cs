@@ -6,13 +6,13 @@ namespace DungeonCrawler
 {
     class Character
     {
-        private Random random = new Random();
-        private string name;
-        private string badEnemy; // enemy and location where character can't fight
-        private string badLocation;
+        private readonly Random random = new Random();
+        private readonly string name;
+        private readonly string badEnemy; // enemy and location where character can't fight
+        private readonly string badLocation;
         private int hp;
         private string lastRoom = "none";
-        private string lastEnemy = "none";
+        //private string lastEnemy = "none";
         private bool tookDamage = false;
 
 
@@ -60,6 +60,7 @@ namespace DungeonCrawler
             lastRoom = room;
         }
         // Get last enemy
+        /*
         public string GetLastEnemy()
         {
             return lastRoom;
@@ -69,7 +70,8 @@ namespace DungeonCrawler
         {
             lastEnemy = enemy;
         }
-        // Get last enemy
+        */
+        // Get tookDamage
         public bool GetTookDamage()
         {
             return tookDamage;

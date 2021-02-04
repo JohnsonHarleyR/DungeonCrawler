@@ -7,11 +7,11 @@ namespace DungeonCrawler
     class Enemy
     {
         // variables
-        Random random = new Random();
-        private List<string> types = new List<string> { "zombie", "insane clown", "demon",
+        private readonly Random random = new Random();
+        private readonly List<string> types = new List<string> { "zombie", "insane clown", "demon",
         "possessed gnome", "giant spider", "vampire", "werewolf"}; // types of enemies
-        private Stack<string> deck = new Stack<string>(); // randomly selected types
-        private int DECK_SIZE = 50; // should be higher than the max number of enemies
+        private readonly Stack<string> deck = new Stack<string>(); // randomly selected types
+        private readonly int DECK_SIZE = 50; // should be higher than the max number of enemies
 
         // constructor
         public Enemy()
