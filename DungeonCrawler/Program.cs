@@ -40,20 +40,15 @@ namespace DungeonCrawler
                 if (adventsLeft > 1)
                 {
                     Console.WriteLine($"\nThe {CharactersLeft(adventurers)} adventurers enter the {location}. " +
-                        $"\nThere are {enemiesInRoom} enemies to fight!\n");
+                        $"\nThere are {enemiesInRoom} enemies to fight!");
 
                 }
                 else
                 {
-                    Console.WriteLine($"\nThe single adventurer enters the {location}.\n");
+                    Console.WriteLine($"\nThe single adventurer enters the {location}.");
 
                 }
-                Console.WriteLine("**Stats**");
-                // loop through the characters to show their hp
-                foreach (Character adventurer in adventurers)
-                {
-                    Console.WriteLine($"{adventurer.GetName()}: {adventurer.GetHp()} HP");
-                }
+                ShowStats(adventurers);
 
                 // pause
                 Pause();
@@ -131,6 +126,7 @@ namespace DungeonCrawler
 
                         }
 
+                        ShowStats(adventurers);
                         Pause();
 
 
@@ -164,6 +160,18 @@ namespace DungeonCrawler
             
 
         }
+
+        // Show all character stats
+        public static void ShowStats(List<Character> adventurers)
+        {
+            Console.WriteLine("\n**Stats**");
+            // loop through the characters to show their hp
+            foreach (Character adventurer in adventurers)
+            {
+                Console.WriteLine($"{adventurer.GetName()}: {adventurer.GetHp()} HP");
+            }
+        }
+
 
         // find out if any characters are still alive
         public static int CharactersLeft(List<Character> characters)
