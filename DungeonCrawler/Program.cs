@@ -45,7 +45,8 @@ namespace DungeonCrawler
                 }
                 else
                 {
-                    Console.WriteLine($"\nThe single adventurer enters the {location}.");
+                    Console.WriteLine($"\nThe single adventurer enters the {location}." +
+                        $"\nThere are {enemiesInRoom} enemies to fight!");
 
                 }
                 ShowStats(adventurers);
@@ -57,101 +58,128 @@ namespace DungeonCrawler
                 // NOTE may not need to record lastEnemy and last location, may only need
                 // to record if they took damage in tht particular room - to simplify things
 
-
-                // Tell the next enemy
-                // change the sentence if the enemy starts with a vowel
-                if (thisEnemy.Substring(0, 1).Equals("a") ||
-                    thisEnemy.Substring(0, 1).Equals("e") ||
-                    thisEnemy.Substring(0, 1).Equals("i") ||
-                    thisEnemy.Substring(0, 1).Equals("o") ||
-                    thisEnemy.Substring(0, 1).Equals("u"))
+                // loop until all the enemies in the room are defeated
+                while (enemiesInRoom > 0)
                 {
-                    Console.Write($"\nAn {thisEnemy} appears!");
-                }
-                else
-                {
-                    Console.Write($"\nA {thisEnemy} appears!");
 
-                }
-
-                // now use a fighter to attack - until one of them defeats the enemy
-                do {
-                    // select random fighter
-                    fighter = adventurers[random.Next(0, adventurers.Count)];
-
-                    // make sure this fighter didn't already take damage in this location
-                    if (!fighter.GetTookDamage())
+                    // Tell the next enemy
+                    // change the sentence if the enemy starts with a vowel
+                    if (thisEnemy.Substring(0, 1).Equals("a") ||
+                        thisEnemy.Substring(0, 1).Equals("e") ||
+                        thisEnemy.Substring(0, 1).Equals("i") ||
+                        thisEnemy.Substring(0, 1).Equals("o") ||
+                        thisEnemy.Substring(0, 1).Equals("u"))
                     {
-                        // tell who is fighting
-                        Console.Write($" {fighter.GetName()} steps up to fight!\n");
-
-                        // Check if it's a bad enemy or bad location
-                        if (fighter.GetBadEnemy().Equals(thisEnemy) ||
-                        fighter.GetBadLocation().Equals(location))
-                        {
-                            // if so, then set the fighter's tookDamage to true
-                            fighter.SetTookDamage(true);
-
-                            // the character takes damage
-                            int damage = enemy.GetDamage(thisEnemy);
-                            fighter.SetHp(fighter.GetHp() - damage);
-
-                            // Inform the player about what happened
-                            if (fighter.GetBadEnemy().Equals(thisEnemy))
-                            {
-                                Console.WriteLine($"The character is feeble against this enemy and takes {damage} HP damage!");
-                            }
-                            else if (fighter.GetBadLocation().Equals(location))
-                            {
-                                Console.WriteLine($"This character struggles to fight in the {location}, thus they take {damage} HP damage against the enemy!");
-
-                            }
-                            
-                           // Console.WriteLine($"They take {damage} HP damage.");
-
-                            // if the hp is less than 0, set it to 0
-                            if (fighter.GetHp() <= 0)
-                            {
-                                fighter.SetHp(0); // set it to 0 just in case it's needed in the future
-                                Console.WriteLine($"\n{fighter.GetName()} has died! That is unfortunate.");
-                            }
-
-                            // let the player know the enemy is still alive
-                            Console.Write($"\nThe {thisEnemy} is still alive!");
-
-                        }
-                        else // otherwise, the character defeats the enemy
-                        {
-                            Console.WriteLine($"This character comes out strong and defeats the enemy!");
-
-                        }
-
-                        ShowStats(adventurers);
-                        Pause();
-
-
-                        // set their lastRoom to the current location
-                        //fighter.SetLastRoom(location);
+                        Console.Write($"\nAn {thisEnemy} appears!");
                     }
-                    else // if they have taken damage in this location or against this enemy in this room,
-                         // move on to a different fighter
+                    else
                     {
-                        // this should happen automatically, but keep the else clause just in case
+                        Console.Write($"\nA {thisEnemy} appears!");
+
                     }
 
-                    
-                } while (//fighter.GetLastRoom().Equals(location) ||
-                        fighter.GetBadEnemy().Equals(thisEnemy) ||
-                        fighter.GetBadLocation().Equals(location));
+                    // now use a fighter to attack - until one of them defeats the enemy
+                    do
+                    {
+                        bool enemyAlive = false; // for the sake of displaying the words right
 
-                // loop through the characters to set tookDamage to false - after an enemy is defeated
-                foreach (Character adventurer in adventurers)
-                {
-                    adventurer.SetTookDamage(false);
+                        // select random fighter
+                        fighter = adventurers[random.Next(0, adventurers.Count)];
+
+                        // make sure this fighter didn't already take damage in this location
+                        if (!fighter.GetTookDamage())
+                        {
+                            // tell who is fighting
+                            Console.Write($" {fighter.GetName()} steps up to fight!\n");
+
+                            // Check if it's a bad enemy or bad location
+                            if (fighter.GetBadEnemy().Equals(thisEnemy) ||
+                            fighter.GetBadLocation().Equals(location))
+                            {
+                                // if so, then set the fighter's tookDamage to true
+                                fighter.SetTookDamage(true);
+
+                                // the character takes damage
+                                int damage = enemy.GetDamage(thisEnemy);
+                                fighter.SetHp(fighter.GetHp() - damage);
+
+                                // Inform the player about what happened
+                                if (fighter.GetBadEnemy().Equals(thisEnemy))
+                                {
+                                    Console.WriteLine($"{fighter.GetName()} is feeble against this enemy and takes {damage} HP damage!");
+                                }
+                                else if (fighter.GetBadLocation().Equals(location))
+                                {
+                                    Console.WriteLine($"{fighter.GetName()} struggles to fight in the {location},\nthus they take {damage} HP damage against the enemy!");
+
+                                }
+
+                                // Console.WriteLine($"They take {damage} HP damage.");
+
+                                // if the hp is less than 0, set it to 0
+                                if (fighter.GetHp() <= 0)
+                                {
+                                    fighter.SetHp(0); // set it to 0 just in case it's needed in the future
+                                    Console.WriteLine($"\n{fighter.GetName()} has died! That is unfortunate.");
+                                }
+
+                                // let the player know the enemy is still alive
+                                Pause();
+                                Console.Write($"\nThe {thisEnemy} is still alive!");
+                                enemyAlive = true;
+
+                            }
+                            else // otherwise, the character defeats the enemy
+                            {
+                                Console.WriteLine($"{fighter.GetName()} comes out strong to defeat the enemy!");
+                                // Decrease the enemies in the room
+                                enemiesInRoom -= 1;
+                                // Display enemies left if the room
+                                if (enemiesInRoom == 1)
+                                    Console.WriteLine($"\n\nThere is {enemiesInRoom} enemy left to fight!");
+                                else
+                                    Console.WriteLine($"\n\nThere are {enemiesInRoom} enemies left to fight!");
+                            }
+
+                            if (!enemyAlive)
+                            {
+                                Pause();
+
+                                if (enemiesInRoom > 0)
+                                    ShowStats(adventurers);
+                                else
+                                    Console.WriteLine("\nThe room is cleared, so the party moves on to the next.");
+
+                            }
+
+
+                            // set their lastRoom to the current location
+                            //fighter.SetLastRoom(location);
+                        }
+                        else // if they have taken damage in this location or against this enemy in this room,
+                             // move on to a different fighter
+                        {
+                            // this should happen automatically, but keep the else clause just in case
+                        }
+
+
+                    } while (//fighter.GetLastRoom().Equals(location) ||
+                            fighter.GetBadEnemy().Equals(thisEnemy) ||
+                            fighter.GetBadLocation().Equals(location));
+
+                    // loop through the characters to set tookDamage to false - after an enemy is defeated
+                    foreach (Character adventurer in adventurers)
+                    {
+                        adventurer.SetTookDamage(false);
+                    }
+
                 }
 
-                // AFTER CHARACTERS ARE DONE FIGHTING ENEMIES IN THE ROOM
-                // now set all the characters last locations to the last location
+
+                
+
+                // AFTER CHARACTERS ARE DONE FIGHTING ENEMIES IN THE ROOM - (move on to next room)
+                // set all the characters tookDamage to false
 
 
             } while (map.GetLocationQueue().Count > 0 && CharactersLeft(adventurers) > 0);
